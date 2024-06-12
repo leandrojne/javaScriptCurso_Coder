@@ -1,0 +1,11 @@
+{
+  "name": "entrega-final-leandronunez",
+  "version": "1.0.0",
+  "description": "Servidor Entrega Final Leandro Nunez",
+  "main": "index.js",
+  "scripts": {
+    "json:server:entrega": "json-server --watch ./json/ofertantes.json"
+  },
+  "author": "",
+  "license": "ISC"
+}
