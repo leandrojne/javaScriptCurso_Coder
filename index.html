@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <script src="https://kit.fontawesome.com/bfdf12ba29.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Entrega Final - Leandro Nuñez</title>
+</head>
+<body>
+    <h1>SUBASTA</h1>
+    <button id="btn-start-subasta">Iniciar Subasta</button>
+    <div id="errors"></div>
+    <div class="content-product-subasta" style="display: none">
+        <h2>Ingresar Datos para la Subasta</h2>
+        <div class="info-subasta">
+            <form id="info-product">
+                <input id="id-subastador" type="hidden" value="1" >
+                <div class="fields">
+                    <div class="field">
+                        <label for="nombre-vendedor">Nombre del Vendedor</label>
+                        <input class="input" id="nombre-vendedor" type="text" name="nombre-vendedor" placeholder="Nombre del Vendedor">
+                    </div>
+                    <div class="field">
+                        <label for="nombre-producto-subasta">Nombre del Producto a Ofertar</label>
+                        <input class="input" id="nombre-producto-subasta" type="text" name="nombre-producto-subasta" placeholder="Nombre del Producto">
+                    </div>
+                    <div class="field">
+                        <label for="precio-producto-subasta">Precio del Producto en Subasta</label>
+                        <input class="input" id="precio-producto-subasta" type="number" name="precio-producto-subasta" placeholder="Precio del Producto">
+                    </div>
+                </div>
+                <button id="btn-submit-prod-venta">Agregar Producto a Subastar</button>
+            </form>
+        </div>
+        <button id="btn-view-product" disabled style="display: none">Ver Producto en Subasta</button>
+    </div>
+    <div id="productoen-venta" class="product-table" style="display: none">
+        <div class="title">
+            Producto en Subasta:
+        </div>
+        <div id="info-prod-venta"></div>
+        <div class="delete">
+            <button id="delete-item" aria-label="Borrar Producto">
+                Eliminar Subasta
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+    <div id="lista-ofertantes" class="product-table" style="display: none">
+        <div class="buscar-name">
+            <form id="search-form">
+                <input class="input" id="buscar-nombre" type="text" placeholder="Buscar por Nombre de Ofertante">
+                <button id="btn-buscar-nombre">Buscar Nombre<i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+        <div class="filters-btns">
+            <button id="clear-filters">
+                Limpiar Filtros
+                <i class="fa-solid fa-filter-circle-xmark"></i>
+            </button>
+            <button id="filter-name-az">
+                Ordenar Nombres
+                <i class="fa-solid fa-arrow-down-a-z"></i>
+            </button>
+            <button id="filter-name-za" style="display: none">
+                Ordenar Nombres
+                <i class="fa-solid fa-arrow-up-z-a"></i>
+            </button>
+            <button id="filter-price-19" style="display: none">
+                Ordenar Precios
+                <i class="fa-solid fa-arrow-down-1-9"></i>
+            </button>
+            <button id="filter-price-91">
+                Ordenar Precios
+                <i class="fa-solid fa-arrow-up-9-1"></i>
+            </button>
+        </div>
+        <div id="search-result"></div>
+        <div class="title">
+            Lista de Ofertantes:
+        </div>
+        <div class="subtitles">
+            <div class="name">Nombre del Producto:</div>
+            <div class="name">Precio Oferta:</div>
+            <div class="name">Nombre del Ofertante:</div>
+        </div>
+        <div id="container-lista"></div>
+    </div>
+    <div class="btns ofertas">
+        <button id="offer" disabled style="display: none">Ofertar por el Producto</button>
+    </div>
+    <div id="form-ofertantes" style="display: none">
+        <h2>Ingresar Datos para la Oferta</h2>
+        <div class="info-subasta">
+            <form id="info-ofertante">
+                <input id="id-ofertante" type="hidden" value="1" >
+                <div class="fields">
+                    <div class="field">
+                        <label for="nombre-ofertante">Nombre del Ofertante</label>
+                        <input class="input" id="nombre-ofertante" type="text" name="nombre-ofertante" placeholder="Nombre del Ofertante" >
+                    </div>
+                    <div class="field">
+                        <label for="precio-producto-oferta">Precio de la Oferta</label>
+                        <input class="input" id="precio-producto-oferta" type="number" name="precio-producto-oferta" placeholder="Precio de la Oferta">
+                    </div>
+                </div>
+                <button id="btn-submit-ofertante">Agregar Oferta</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
