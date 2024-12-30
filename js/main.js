@@ -2,7 +2,7 @@
 let nombreSubastador = ''
 let productoSubasta = ''
 let precioProductoSubasta
-let nombreOfertante= ''
+let nombreOfertante = ''
 let precioOferta
 
 const errorsContainer = document.getElementById('errors')
@@ -25,8 +25,8 @@ const conainterSearchResult = document.getElementById('search-result') || []
 const conainterSearchBar = document.querySelector('.buscar-name')
 const conainterFiltersBar = document.querySelector('.filters-btns')
 
-const urlSubastador = 'http://localhost:3000/subastador/';
-const urlOfertantes = 'http://localhost:3000/ofertantes/';
+const urlSubastador = 'https://subasta.idiomavisual.com/api/subastador';
+const urlOfertantes = 'https://subasta.idiomavisual.com/api/ofertantes';
 
 const listadoDeProduct = []
 let listadoDeOfertantes = []
@@ -48,16 +48,16 @@ const formatoMiles = (number) => {
     const exp = /(\d)(?=(\d{3})+(?!\d))/g;
     const rep = '$1.';
     let arr = number.toString().split('.');
-    arr[0] = arr[0].replace(exp,rep);
-    return arr[1] ? arr.join(','): arr[0];
+    arr[0] = arr[0].replace(exp, rep);
+    return arr[1] ? arr.join(',') : arr[0];
 }
-const ProductoSubasta = function(nombreProducto,nombreVendedor,precio,id) {
+const ProductoSubasta = function (nombreProducto, nombreVendedor, precio, id) {
     this.nombre_Producto = nombreProducto.toUpperCase();
     this.nombre_Vendedor = nombreVendedor.toUpperCase();
     this.precio_Producto = precio;
     this.id = id
 }
-const OfertantesListado = function(nombreProducto,nombreOfertante,precio,id) {
+const OfertantesListado = function (nombreProducto, nombreOfertante, precio, id) {
     this.nombre_Producto = nombreProducto.toUpperCase();
     this.nombre_Ofertante = nombreOfertante.toUpperCase();
     this.precio_Oferta = precio;
@@ -65,8 +65,8 @@ const OfertantesListado = function(nombreProducto,nombreOfertante,precio,id) {
 }
 fetch(urlSubastador)
     .then(response => response.json())
-    .then( (data) => {
-        if(data.length < 1){
+    .then((data) => {
+        if (data.length < 1) {
             btnStartSubasta.style.display = 'inline-block'
         } else {
             for (const [item] of Object.entries(data)) {
@@ -75,17 +75,17 @@ fetch(urlSubastador)
                 let product = data[item].producto
                 let id = data[item].id
 
-                let productoDeSubasta = new ProductoSubasta(product,nombre,price,id)
+                let productoDeSubasta = new ProductoSubasta(product, nombre, price, id)
                 listadoDeProduct.push(productoDeSubasta)
 
                 let div = document.createElement('div')
-                div.setAttribute('class','item-venta')
+                div.setAttribute('class', 'item-venta')
                 div.innerHTML = printProductoVenta(product, nombre, price)
                 document.getElementById('info-prod-venta').appendChild(div)
             }
         }
 
-        if(listadoDeProduct.length < 1){
+        if (listadoDeProduct.length < 1) {
             document.getElementById('productoen-venta').style.display = 'none'
             btnStartSubasta.style.display = 'inline-block'
             btnAddOffer.disabled = true
@@ -109,9 +109,9 @@ fetch(urlSubastador)
 
 fetch(urlOfertantes)
     .then(response => response.json())
-    .then( (data) => {
+    .then((data) => {
 
-        if(data.length < 1){
+        if (data.length < 1) {
             containerAddProduct.style.display = 'none'
         } else {
             for (const [item] of Object.entries(data)) {
@@ -120,17 +120,17 @@ fetch(urlOfertantes)
                 let product = data[item].producto
                 let id = data[item].id
 
-                let ofertantes = new OfertantesListado(product,nombre,price,id)
+                let ofertantes = new OfertantesListado(product, nombre, price, id)
                 listadoDeOfertantes.push(ofertantes)
 
                 let div = document.createElement('div');
-                div.setAttribute('class','item-venta');
+                div.setAttribute('class', 'item-venta');
                 div.innerHTML = printListaOferta(product, nombre, price)
                 document.getElementById('container-lista').appendChild(div)
                 showOptions()
             }
         }
-        if(listadoDeOfertantes.length < 1){
+        if (listadoDeOfertantes.length < 1) {
             document.getElementById('lista-ofertantes').style.display = 'none';
         } else {
             document.getElementById('lista-ofertantes').style.display = 'block';
@@ -145,7 +145,7 @@ fetch(urlOfertantes)
         });
     })
 function sendProductToJson(nombre, producto, precio, id) {
-    let json = {"nombre": nombre, "producto": producto, "precio": precio, "id": id}
+    let json = { "nombre": nombre, "producto": producto, "precio": precio, "id": id }
     let jsonData = JSON.stringify(json)
     fetch(urlSubastador, {
         method: 'POST',
@@ -155,14 +155,14 @@ function sendProductToJson(nombre, producto, precio, id) {
         body: jsonData
     })
         .then(response => response.json())
-        .then( (data) => {
-            let productoDeSubasta = new ProductoSubasta(data.producto,data.nombre,data.precio,data.id)
+        .then((data) => {
+            let productoDeSubasta = new ProductoSubasta(data.producto, data.nombre, data.precio, data.id)
             listadoDeProduct.push(productoDeSubasta)
         })
         .catch(error => console.log(error))
 }
 function sendOfertanteToJson(nombre, producto, precio, id) {
-    let json = {"nombre": nombre, "producto": producto, "precio": precio, "id": id}
+    let json = { "nombre": nombre, "producto": producto, "precio": precio, "id": id }
     let jsonData = JSON.stringify(json)
     fetch(urlOfertantes, {
         method: 'POST',
@@ -172,14 +172,14 @@ function sendOfertanteToJson(nombre, producto, precio, id) {
         body: jsonData
     })
         .then(response => response.json())
-        .then( (data) => {
-            ofertantes = new OfertantesListado(data.producto,data.nombre,data.precio, data.id)
+        .then((data) => {
+            ofertantes = new OfertantesListado(data.producto, data.nombre, data.precio, data.id)
             listadoDeOfertantes.push(ofertantes)
         })
         .catch(error => console.log(error))
 }
 function borrarTodaSubasta() {
-    listadoDeProduct.forEach((item)=>{
+    listadoDeProduct.forEach((item) => {
         let idItem = item.id
 
         fetch(`${urlSubastador}${idItem}`, {
@@ -192,7 +192,7 @@ function borrarTodaSubasta() {
             .catch(error => error)
     })
 
-    listadoDeOfertantes.forEach((item)=>{
+    listadoDeOfertantes.forEach((item) => {
         let idItem = item.id
 
         fetch(`${urlOfertantes}${idItem}`, {
@@ -225,13 +225,13 @@ function clearFilters() {
     btnSortNameAZ.disabled = false
     btnSortNameZA.style.display = "none"
     btnSortNameZA.disabled = true
-    if(document.querySelector('#errors #error-find-name')) {
+    if (document.querySelector('#errors #error-find-name')) {
         document.getElementById('error-find-name').remove()
     }
     inputBuscarNombre.className = 'input'
     for (const [item] of Object.entries(listadoDeOfertantes)) {
         let div = document.createElement('div');
-        div.setAttribute('class','item-venta');
+        div.setAttribute('class', 'item-venta');
         div.innerHTML = printListaOferta(listadoDeOfertantes[item].nombre_Producto, listadoDeOfertantes[item].nombre_Ofertante, listadoDeOfertantes[item].precio_Oferta);
         document.getElementById('container-lista').appendChild(div);
     }
@@ -272,7 +272,7 @@ function deleteProduct() {
 
 
 }
-function printProductoVenta(nombreProducto, nombreVendedor, precioProducto,id){
+function printProductoVenta(nombreProducto, nombreVendedor, precioProducto, id) {
     let nombreProductoVenta = nombreProducto
     let nombreVendedorProd = nombreVendedor
     let precioProductoVenta = precioProducto
@@ -291,7 +291,7 @@ function printProductoVenta(nombreProducto, nombreVendedor, precioProducto,id){
             </div>
         </div>`
 }
-function printListaOferta(nombreProducto, nombreVendedor, precioProducto, id){
+function printListaOferta(nombreProducto, nombreVendedor, precioProducto, id) {
     let nombreProductoVenta = nombreProducto
     let nombreVendedorProd = nombreVendedor
     let precioProductoVenta = precioProducto
@@ -306,34 +306,34 @@ function printListaOferta(nombreProducto, nombreVendedor, precioProducto, id){
         </div>`
 }
 function addProductSubasta(e) {
-    if(listadoDeProduct.length == 0) {
+    if (listadoDeProduct.length == 0) {
         e.preventDefault()
         let inputNameSubastador = document.getElementById('nombre-vendedor') || []
         let inputProductSubasta = document.getElementById('nombre-producto-subasta') || []
         let inputPriceSubasta = document.getElementById('precio-producto-subasta') || []
         let priceSubastaNumber = parseFloat(inputPriceSubasta.value)
         let idSubastador = inputIdSubastador.value
-        if(inputNameSubastador.value.replace(/^\s+/, '').replace(/\s+$/, '') == ''){
+        if (inputNameSubastador.value.replace(/^\s+/, '').replace(/\s+$/, '') == '') {
             inputNameSubastador.className = 'input error'
             nombreSubastador = ''
-            if(!document.querySelector('#errors #error-subastador-name')){
+            if (!document.querySelector('#errors #error-subastador-name')) {
                 let div = document.createElement('div')
-                div.setAttribute('class','error-msg')
-                div.setAttribute('id','error-subastador-name')
+                div.setAttribute('class', 'error-msg')
+                div.setAttribute('id', 'error-subastador-name')
                 div.innerHTML = `<i class="fa-solid fa-xmark"></i> Debes ingresar el Nombre del Vendedor`
                 errorsContainer.appendChild(div)
             }
         } else {
-            if(document.querySelector('#errors #error-subastador-name')) {
+            if (document.querySelector('#errors #error-subastador-name')) {
                 document.getElementById('error-subastador-name').remove()
             }
             inputNameSubastador.className = 'input'
             nombreSubastador = inputNameSubastador.value.replace(/^\s+/, '').replace(/\s+$/, '')
         }
-        if(inputProductSubasta.value.replace(/^\s+/, '').replace(/\s+$/, '') == ''){
+        if (inputProductSubasta.value.replace(/^\s+/, '').replace(/\s+$/, '') == '') {
             inputProductSubasta.className = 'input error'
             productoSubasta = ''
-            if(!document.querySelector('#errors #error-subasta-product-name')) {
+            if (!document.querySelector('#errors #error-subasta-product-name')) {
                 let div = document.createElement('div')
                 div.setAttribute('class', 'error-msg')
                 div.setAttribute('id', 'error-subasta-product-name')
@@ -342,19 +342,19 @@ function addProductSubasta(e) {
             }
         } else {
             inputProductSubasta.className = 'input'
-            if(document.querySelector('#errors #error-subasta-product-name')) {
+            if (document.querySelector('#errors #error-subasta-product-name')) {
                 document.getElementById('error-subasta-product-name').remove()
             }
             productoSubasta = inputProductSubasta.value.replace(/^\s+/, '').replace(/\s+$/, '')
         }
-        if(isNaN(priceSubastaNumber) || priceSubastaNumber <= 0){
+        if (isNaN(priceSubastaNumber) || priceSubastaNumber <= 0) {
             inputPriceSubasta.className = 'input error'
             precioProductoSubasta = NaN
-            if(isNaN(priceSubastaNumber)){
-                if(document.querySelector('#errors #error-subasta-product-price')) {
+            if (isNaN(priceSubastaNumber)) {
+                if (document.querySelector('#errors #error-subasta-product-price')) {
                     document.getElementById('error-subasta-product-price').remove()
                 }
-                if(!document.querySelector('#errors #error-subasta-product-price')) {
+                if (!document.querySelector('#errors #error-subasta-product-price')) {
                     let div = document.createElement('div')
                     div.setAttribute('class', 'error-msg')
                     div.setAttribute('id', 'error-subasta-product-price')
@@ -362,11 +362,11 @@ function addProductSubasta(e) {
                     errorsContainer.appendChild(div)
                 }
             }
-            if(priceSubastaNumber <= 0){
-                if(document.querySelector('#errors #error-subasta-product-price')) {
+            if (priceSubastaNumber <= 0) {
+                if (document.querySelector('#errors #error-subasta-product-price')) {
                     document.getElementById('error-subasta-product-price').remove()
                 }
-                if(!document.querySelector('#errors #error-subasta-product-price')) {
+                if (!document.querySelector('#errors #error-subasta-product-price')) {
                     let div = document.createElement('div')
                     div.setAttribute('class', 'error-msg')
                     div.setAttribute('id', 'error-subasta-product-price')
@@ -376,16 +376,16 @@ function addProductSubasta(e) {
             }
         } else {
             inputPriceSubasta.className = 'input'
-            if(document.querySelector('#errors #error-subasta-product-price')) {
+            if (document.querySelector('#errors #error-subasta-product-price')) {
                 document.getElementById('error-subasta-product-price').remove()
             }
             precioProductoSubasta = priceSubastaNumber
         }
 
-        if(nombreSubastador != '' && productoSubasta != '' && !isNaN(precioProductoSubasta)) {
+        if (nombreSubastador != '' && productoSubasta != '' && !isNaN(precioProductoSubasta)) {
             containerAddProduct.style.display = 'none'
             let div = document.createElement('div');
-            div.setAttribute('class','item-venta');
+            div.setAttribute('class', 'item-venta');
             div.innerHTML = printProductoVenta(productoSubasta, nombreSubastador, precioProductoSubasta);
             document.getElementById('info-prod-venta').appendChild(div)
             document.getElementById('productoen-venta').style.display = 'block'
@@ -401,14 +401,14 @@ function addProductSubasta(e) {
                 close: true,
                 duration: 2000
             }).showToast();
-            sendProductToJson(nombreSubastador,productoSubasta,precioProductoSubasta,idSubastador)
+            sendProductToJson(nombreSubastador, productoSubasta, precioProductoSubasta, idSubastador)
 
         }
     }
 }
 function addNewOffer(e) {
     let lastOffer = listadoDeOfertantes.length - 1
-    if(listadoDeOfertantes.length === 0){
+    if (listadoDeOfertantes.length === 0) {
         precioProductoSubasta = listadoDeProduct[0].precio_Producto
     } else {
         precioProductoSubasta = listadoDeOfertantes[lastOffer].precio_Oferta
@@ -423,12 +423,12 @@ function addNewOffer(e) {
     let idNewOfferNumber = parseInt(inputIdOfertante.value)
     let idFinal
 
-    if(listadoDeOfertantes.length < 1){
+    if (listadoDeOfertantes.length < 1) {
         idFinal = idNewOfferNumber
     } else {
-        listadoDeOfertantes.forEach( usr => {
+        listadoDeOfertantes.forEach(usr => {
             let userId = parseInt(usr.id)
-            if(userId === idNewOfferNumber) {
+            if (userId === idNewOfferNumber) {
                 idNewOfferNumber++
                 idFinal = idNewOfferNumber
             } else {
@@ -439,33 +439,33 @@ function addNewOffer(e) {
     let idString = idFinal.toString()
 
 
-    if(inputNameOfferWithoutSpace == ''){
+    if (inputNameOfferWithoutSpace == '') {
         inputNameOffer.className = 'input error'
         nombreOfertante = ''
         window.scrollTo(0, 0);
-        if(!document.querySelector('#errors #error-ofertante-name')){
+        if (!document.querySelector('#errors #error-ofertante-name')) {
             let div = document.createElement('div')
-            div.setAttribute('class','error-msg')
-            div.setAttribute('id','error-ofertante-name')
+            div.setAttribute('class', 'error-msg')
+            div.setAttribute('id', 'error-ofertante-name')
             div.innerHTML = `<i class="fa-solid fa-xmark"></i> Debes ingresar el Nombre del Ofertante`
             errorsContainer.appendChild(div)
         }
     } else {
-        if(document.querySelector('#errors #error-ofertante-name')) {
+        if (document.querySelector('#errors #error-ofertante-name')) {
             document.getElementById('error-ofertante-name').remove()
         }
         inputNameOffer.className = 'input'
         nombreOfertante = inputNameOfferWithoutSpace
     }
-    if(isNaN(priceOfferNumber) || priceOfferNumber <= precioProductoSubasta){
+    if (isNaN(priceOfferNumber) || priceOfferNumber <= precioProductoSubasta) {
         inputPriceOffer.className = 'input error'
         precioOferta = NaN
         window.scrollTo(0, 0);
-        if(isNaN(priceOfferNumber)){
-            if(document.querySelector('#errors #error-oferta-product-price')) {
+        if (isNaN(priceOfferNumber)) {
+            if (document.querySelector('#errors #error-oferta-product-price')) {
                 document.getElementById('error-oferta-product-price').remove()
             }
-            if(!document.querySelector('#errors #error-oferta-product-price')) {
+            if (!document.querySelector('#errors #error-oferta-product-price')) {
                 let div = document.createElement('div')
                 div.setAttribute('class', 'error-msg')
                 div.setAttribute('id', 'error-oferta-product-price')
@@ -473,11 +473,11 @@ function addNewOffer(e) {
                 errorsContainer.appendChild(div)
             }
         }
-        if(priceOfferNumber <= precioProductoSubasta){
-            if(document.querySelector('#errors #error-oferta-product-price')) {
+        if (priceOfferNumber <= precioProductoSubasta) {
+            if (document.querySelector('#errors #error-oferta-product-price')) {
                 document.getElementById('error-oferta-product-price').remove()
             }
-            if(!document.querySelector('#errors #error-oferta-product-price')) {
+            if (!document.querySelector('#errors #error-oferta-product-price')) {
                 let div = document.createElement('div')
                 div.setAttribute('class', 'error-msg')
                 div.setAttribute('id', 'error-oferta-product-price')
@@ -486,16 +486,16 @@ function addNewOffer(e) {
             }
         }
     } else {
-        if(document.querySelector('#errors #error-oferta-product-price')) {
+        if (document.querySelector('#errors #error-oferta-product-price')) {
             document.getElementById('error-oferta-product-price').remove()
         }
         inputPriceOffer.className = 'input'
         precioOferta = priceOfferNumber
     }
-    if(nombreOfertante != ''  && !isNaN(precioOferta) && priceOfferNumber > precioProductoSubasta) {
+    if (nombreOfertante != '' && !isNaN(precioOferta) && priceOfferNumber > precioProductoSubasta) {
         containerAddProduct.style.display = 'none'
         let div = document.createElement('div');
-        div.setAttribute('class','item-venta');
+        div.setAttribute('class', 'item-venta');
         div.innerHTML = printListaOferta(productoSubasta, nombreOfertante, precioOferta);
         document.getElementById('container-lista').appendChild(div);
         document.getElementById('lista-ofertantes').style.display = 'block';
@@ -508,14 +508,14 @@ function addNewOffer(e) {
             duration: 2000
         }).showToast();
 
-        sendOfertanteToJson(nombreOfertante,productoSubasta, precioOferta,idString)
+        sendOfertanteToJson(nombreOfertante, productoSubasta, precioOferta, idString)
         inputNameOffer.value = ''
         inputPriceOffer.value = ''
         showOptions()
     }
 }
-function showOptions(){
-    if(listadoDeOfertantes.length >= 3) {
+function showOptions() {
+    if (listadoDeOfertantes.length >= 3) {
         conainterSearchBar.style.display = 'flex'
         conainterFiltersBar.style.display = 'flex'
     } else {
@@ -523,7 +523,7 @@ function showOptions(){
         conainterFiltersBar.style.display = 'none'
     }
 }
-function sortByNameAZ(){
+function sortByNameAZ() {
     conainterSearchResult.innerHTML = ''
     inputBuscarNombre.value = ''
     sortOffersList = [...listadoDeOfertantes]
@@ -547,13 +547,13 @@ function sortByNameAZ(){
 
     for (const [item] of Object.entries(sortOffersList)) {
         let div = document.createElement('div');
-        div.setAttribute('class','item-venta');
+        div.setAttribute('class', 'item-venta');
         div.innerHTML = printListaOferta(sortOffersList[item].nombre_Producto, sortOffersList[item].nombre_Ofertante, sortOffersList[item].precio_Oferta);
         document.getElementById('container-lista').appendChild(div);
     }
 
 }
-function sortByNameZA(){
+function sortByNameZA() {
     conainterSearchResult.innerHTML = ''
     inputBuscarNombre.value = ''
     sortOffersList.reverse()
@@ -566,20 +566,20 @@ function sortByNameZA(){
 
     for (const [item] of Object.entries(sortOffersList)) {
         let div = document.createElement('div');
-        div.setAttribute('class','item-venta');
+        div.setAttribute('class', 'item-venta');
         div.innerHTML = printListaOferta(sortOffersList[item].nombre_Producto, sortOffersList[item].nombre_Ofertante, sortOffersList[item].precio_Oferta);
         document.getElementById('container-lista').appendChild(div);
     }
 
 }
-function sortByPriceMoreLess(){
+function sortByPriceMoreLess() {
     conainterSearchResult.innerHTML = ''
     inputBuscarNombre.value = ''
     sortOffersList = [...listadoDeOfertantes]
-    sortOffersList.sort(function (a,b) {
+    sortOffersList.sort(function (a, b) {
         const nameA = a.precio_Oferta
         const nameB = b.precio_Oferta
-        return nameB-nameA
+        return nameB - nameA
     })
     btnSortPrice19.style.display = "flex"
     btnSortPrice19.disabled = false
@@ -594,12 +594,12 @@ function sortByPriceMoreLess(){
 
     for (const [item] of Object.entries(sortOffersList)) {
         let div = document.createElement('div');
-        div.setAttribute('class','item-venta');
+        div.setAttribute('class', 'item-venta');
         div.innerHTML = printListaOferta(sortOffersList[item].nombre_Producto, sortOffersList[item].nombre_Ofertante, sortOffersList[item].precio_Oferta);
         document.getElementById('container-lista').appendChild(div);
     }
 }
-function sortByPriceLessMore(){
+function sortByPriceLessMore() {
     conainterSearchResult.innerHTML = ''
     inputBuscarNombre.value = ''
     sortOffersList.reverse()
@@ -616,36 +616,36 @@ function sortByPriceLessMore(){
 
     for (const [item] of Object.entries(sortOffersList)) {
         let div = document.createElement('div');
-        div.setAttribute('class','item-venta');
+        div.setAttribute('class', 'item-venta');
         div.innerHTML = printListaOferta(sortOffersList[item].nombre_Producto, sortOffersList[item].nombre_Ofertante, sortOffersList[item].precio_Oferta);
         document.getElementById('container-lista').appendChild(div);
     }
 }
-function filterName(e){
+function filterName(e) {
     e.preventDefault()
     let resultadoLista
     let buscarNombre = inputBuscarNombre.value
     let resultado
     let nombre = buscarNombre.trim().toUpperCase()
-    if(nombre == ''){
+    if (nombre == '') {
         inputBuscarNombre.className = 'input error'
         conainterSearchResult.innerHTML = ''
         window.scrollTo(0, 0);
-        if(!document.querySelector('#errors #error-find-name')){
+        if (!document.querySelector('#errors #error-find-name')) {
             let div = document.createElement('div')
-            div.setAttribute('class','error-msg')
-            div.setAttribute('id','error-find-name')
+            div.setAttribute('class', 'error-msg')
+            div.setAttribute('id', 'error-find-name')
             div.innerHTML = `<i class="fa-solid fa-xmark"></i> Debes ingresar un nombre para la busqueda`
             errorsContainer.appendChild(div)
         }
-    }else {
-        if(document.querySelector('#errors #error-find-name')) {
+    } else {
+        if (document.querySelector('#errors #error-find-name')) {
             document.getElementById('error-find-name').remove()
         }
         inputBuscarNombre.className = 'input'
-        resultado = listadoDeOfertantes.filter((producto)=> producto.nombre_Ofertante.toUpperCase().includes(nombre))
-        if (resultado.length > 0){
-            if(!document.querySelector('#search-result .search-result')) {
+        resultado = listadoDeOfertantes.filter((producto) => producto.nombre_Ofertante.toUpperCase().includes(nombre))
+        if (resultado.length > 0) {
+            if (!document.querySelector('#search-result .search-result')) {
                 let div = document.createElement('div');
                 div.setAttribute('class', 'search-result');
                 div.innerHTML = `<i class="fa-solid fa-check"></i> Resultado para la busqueda de '<strong>${nombre}</strong>':`;
@@ -662,12 +662,12 @@ function filterName(e){
             resultadoLista = resultado
             for (const [item] of Object.entries(resultadoLista)) {
                 let div = document.createElement('div');
-                div.setAttribute('class','item-venta');
+                div.setAttribute('class', 'item-venta');
                 div.innerHTML = printListaOferta(resultadoLista[item].nombre_Producto, resultadoLista[item].nombre_Ofertante, resultadoLista[item].precio_Oferta);
                 document.getElementById('container-lista').appendChild(div);
             }
-        }else{
-            if(!document.querySelector('#search-result .search-result')) {
+        } else {
+            if (!document.querySelector('#search-result .search-result')) {
                 let div = document.createElement('div');
                 div.setAttribute('class', 'search-result error');
                 div.innerHTML = `<i class="fa-solid fa-xmark"></i> No se encontró ningún resultado para la busqueda de '<strong>${nombre}</strong>'`;
@@ -684,7 +684,7 @@ function filterName(e){
 
             for (const [item] of Object.entries(listadoDeOfertantes)) {
                 let div = document.createElement('div');
-                div.setAttribute('class','item-venta');
+                div.setAttribute('class', 'item-venta');
                 div.innerHTML = printListaOferta(listadoDeOfertantes[item].nombre_Producto, listadoDeOfertantes[item].nombre_Ofertante, listadoDeOfertantes[item].precio_Oferta);
                 document.getElementById('container-lista').appendChild(div);
             }
