@@ -26,6 +26,7 @@ const conainterSearchBar = document.querySelector('.buscar-name')
 const conainterFiltersBar = document.querySelector('.filters-btns')
 
 const urlSubastador = 'https://subasta.idiomavisual.com/api/subastador';
+const addSubasta = 'https://subasta.idiomavisual.com/api/add_subasta';
 const urlOfertantes = 'https://subasta.idiomavisual.com/api/ofertantes';
 
 const listadoDeProduct = []
@@ -161,10 +162,10 @@ function sendProductToJson(nombre, producto, precio, id) {
         })
         .catch(error => console.log(error))
 }
-function sendOfertanteToJson(nombre, producto, precio, id) {
-    let json = { "nombre": nombre, "producto": producto, "precio": precio, "id": id }
+function sendOfertanteToJson(nombre, producto, precio) {
+    let json = { "nombre": nombre, "producto": producto, "precio": precio }
     let jsonData = JSON.stringify(json)
-    fetch(urlOfertantes, {
+    fetch(addSubasta, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
