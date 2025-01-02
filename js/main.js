@@ -155,10 +155,10 @@ function sendProductToJson(nombre, producto, precio, id) {
         body: JSON.stringify(json)
     };
 
-    fetch('urlSubastador', requestOptions)
+    fetch(addSubasta, requestOptions)
         .then(() => {
             console.log('todo OK')
-            let productoDeSubasta = new ProductoSubasta(data.producto, data.nombre, data.precio, data.id)
+            let productoDeSubasta = new ProductoSubasta(producto, nombre, precio, id)
             listadoDeProduct.push(productoDeSubasta)
         })
         .catch((error) => {
