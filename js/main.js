@@ -29,6 +29,8 @@ const urlSubastador = 'https://subasta.idiomavisual.com/api/subastador';
 const addSubasta = 'https://subasta.idiomavisual.com/api/add_subasta';
 const urlOfertantes = 'https://subasta.idiomavisual.com/api/ofertantes';
 const addOfertante = 'https://subasta.idiomavisual.com/api/add_ofertante';
+const deleteOfertantes = 'https://subasta.idiomavisual.com/api/delete_ofertantes';
+const deleteSubasta = 'https://subasta.idiomavisual.com/api/delete_subasta';
 
 const listadoDeProduct = []
 let listadoDeOfertantes = []
@@ -197,7 +199,7 @@ function sendOfertanteToJson(_nombre, _producto, _precio, _id) {
             }
             return res.json();
         })
-        .then((data) => {
+        .then(() => {
             ofertantes = new OfertantesListado(_producto, _nombre, _precio, _id)
             listadoDeOfertantes.push(ofertantes)
         })
@@ -205,30 +207,40 @@ function sendOfertanteToJson(_nombre, _producto, _precio, _id) {
 }
 
 function borrarTodaSubasta() {
+
+    console.log(`Se borra la subasta: ${listadoDeProduct}`)
+
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json'
+        }
+    };
+
     listadoDeProduct.forEach((item) => {
         let idItem = item.id
 
-        fetch(`${urlSubastador}${idItem}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json'
-            }
-        })
-            .then(response => response)
-            .catch(error => error)
+        fetch(`${urlSubastador}${idItem}`, requestOptions)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .catch(error => console.log(error))
     })
 
     listadoDeOfertantes.forEach((item) => {
         let idItem = item.id
 
-        fetch(`${urlOfertantes}${idItem}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json'
-            }
-        })
-            .then(response => response)
-            .catch(error => error)
+        fetch(`${urlOfertantes}${idItem}`, requestOptions)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .catch(error => console.log(error))
     })
     listadoDeProduct.splice(0)
     listadoDeOfertantes.splice(0)
