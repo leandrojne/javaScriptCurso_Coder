@@ -166,6 +166,7 @@ function sendProductToJson(_nombre, _producto, _precio, _id) {
     console.log(`Body del post: ${requestOptions.body}`)
 
     fetch(addSubasta, requestOptions)
+        .then(res => res.json())
         .then(() => {
             console.log('todo OK')
             let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
