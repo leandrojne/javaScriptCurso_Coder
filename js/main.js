@@ -170,38 +170,39 @@ fetch(urlOfertantes)
             icon: "error"
         });
     })
-ƒ
-// function sendProductToJson(_nombre, _producto, _precio, _id) {
-//     let json = { nombre: _nombre, producto: _producto, precio: _precio }
-//     let pruebaData = {
-//         nombre: 'Cachito',
-//         producto: 'Correa',
-//         precio: '100'
-//     }
 
-//     const requestOptions = {
-//         method: 'POST',
-//         headers: {
-//             'Accept': 'application/json, text/plain, */*',
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(pruebaData)
-//     };
+function sendProductToJson(_nombre, _producto, _precio, _id) {
+    // let json = { nombre: _nombre, producto: _producto, precio: _precio }
+    // let pruebaData = {
+    //     nombre: 'Cachito',
+    //     producto: 'Correa',
+    //     precio: '100'
+    // }
 
-//     console.log(`Body del post: ${requestOptions.body}`)
+    // const requestOptions = {
+    //     method: 'POST',
+    //     headers: {
+    //         'Accept': 'application/json, text/plain, */*',
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(pruebaData)
+    // };
 
-//     fetch(addSubasta, requestOptions)
-//         .then(res => res.json())
-//         .then(() => {
-//             console.log('todo OK')
-//             let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
-//             console.log(`Product de Subasta: ${productoDeSubasta}`)
-//             listadoDeProduct.push(productoDeSubasta)
-//         })
-//         .catch((error) => {
-//             console.log(error)
-//         })
-// }
+    // console.log(`Body del post: ${requestOptions.body}`)
+
+    // fetch(addSubasta, requestOptions)
+    //     .then(res => res.json())
+    //     .then(() => {
+    //         console.log('todo OK')
+    //         let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
+    //         console.log(`Product de Subasta: ${productoDeSubasta}`)
+    //         listadoDeProduct.push(productoDeSubasta)
+    //     })
+    //     .catch((error) => {
+    //         console.log(error)
+    //     })
+    console.log('hola!!!')
+}
 
 
 function sendOfertanteToJson(nombre, producto, precio) {
