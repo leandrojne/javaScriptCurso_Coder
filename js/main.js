@@ -220,7 +220,7 @@ function borrarTodaSubasta() {
     listadoDeProduct.forEach((item) => {
         let idItem = item.id
 
-        fetch(`${urlSubastador}${idItem}`, requestOptions)
+        fetch(`${deleteSubasta}${idItem}`, requestOptions)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -233,7 +233,7 @@ function borrarTodaSubasta() {
     listadoDeOfertantes.forEach((item) => {
         let idItem = item.id
 
-        fetch(`${urlOfertantes}${idItem}`, requestOptions)
+        fetch(`${deleteOfertantes}${idItem}`, requestOptions)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
