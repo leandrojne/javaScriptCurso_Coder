@@ -38,7 +38,7 @@ btnAddOffer.addEventListener('click', showFormOfertante)
 btnDeleteProduct.addEventListener('click', deleteProduct)
 btnClearFilters.addEventListener('click', clearFilters)
 btnStartSubasta.addEventListener('click', showProductContainerInputs)
-btnAddProductSubasta.addEventListener('click', addProductSubasta)
+btnAddProductSubasta.addEventListener('click', nuevaSubastaEnviarAlServer)
 btnAddOfertante.addEventListener('click', addNewOffer)
 btnSortPrice19.addEventListener('click', sortByPriceLessMore)
 btnSortPrice91.addEventListener('click', sortByPriceMoreLess)
@@ -64,6 +64,31 @@ const OfertantesListado = function (nombreProducto, nombreOfertante, precio, id)
     this.precio_Oferta = precio;
     this.id = id
 }
+
+
+function nuevaSubastaEnviarAlServer() {
+    let json = {
+        nombre: 'CACHITO',
+        producto: 'CASA',
+        precio: '1000'
+    }
+    let jsonData = JSON.stringify(json)
+    fetch(addSubasta, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonData
+    })
+        .then(response => response.json())
+        .then((data) => {
+            console.log('enviado!!!')
+        })
+        .catch(error => console.log(error))
+}
+
+
+
 fetch(urlSubastador)
     .then(response => response.json())
     .then((data) => {
