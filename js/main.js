@@ -38,7 +38,7 @@ btnAddOffer.addEventListener('click', showFormOfertante)
 btnDeleteProduct.addEventListener('click', deleteProduct)
 btnClearFilters.addEventListener('click', clearFilters)
 btnStartSubasta.addEventListener('click', showProductContainerInputs)
-btnAddProductSubasta.addEventListener('click', nuevaSubastaEnviarAlServer)
+btnAddProductSubasta.addEventListener('click', sendProductToJson)
 btnAddOfertante.addEventListener('click', addNewOffer)
 btnSortPrice19.addEventListener('click', sortByPriceLessMore)
 btnSortPrice91.addEventListener('click', sortByPriceMoreLess)
@@ -63,36 +63,6 @@ const OfertantesListado = function (nombreProducto, nombreOfertante, precio, id)
     this.nombre_Ofertante = nombreOfertante.toUpperCase();
     this.precio_Oferta = precio;
     this.id = id
-}
-
-
-function nuevaSubastaEnviarAlServer(e) {
-    e.preventDefault();
-
-    let json = {
-        nombre: 'CACHITO',
-        producto: 'CASA',
-        precio: '1000'
-    }
-    let jsonData = JSON.stringify(json)
-
-    fetch('https://subasta.idiomavisual.com/api/add_subasta', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: jsonData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Enviado!!!', data);
-        })
-        .catch(error => console.error('Error:', error));
 }
 
 
@@ -180,36 +150,31 @@ fetch(urlOfertantes)
     })
 
 function sendProductToJson(_nombre, _producto, _precio, _id) {
-    // let json = { nombre: _nombre, producto: _producto, precio: _precio }
-    // let pruebaData = {
-    //     nombre: 'Cachito',
-    //     producto: 'Correa',
-    //     precio: '100'
-    // }
+    let json = { nombre: _nombre, producto: _producto, precio: _precio }
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json)
+    };
 
-    // const requestOptions = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Accept': 'application/json, text/plain, */*',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(pruebaData)
-    // };
+    console.log(`Body del post: ${requestOptions.body}`)
 
-    // console.log(`Body del post: ${requestOptions.body}`)
-
-    // fetch(addSubasta, requestOptions)
-    //     .then(res => res.json())
-    //     .then(() => {
-    //         console.log('todo OK')
-    //         let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
-    //         console.log(`Product de Subasta: ${productoDeSubasta}`)
-    //         listadoDeProduct.push(productoDeSubasta)
-    //     })
-    //     .catch((error) => {
-    //         console.log(error)
-    //     })
-    console.log('hola!!!')
+    fetch(addSubasta, requestOptions)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(() => {
+            let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
+            console.log(`Product de Subasta: ${productoDeSubasta}`)
+            listadoDeProduct.push(productoDeSubasta)
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 
