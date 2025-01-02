@@ -149,14 +149,17 @@ fetch(urlOfertantes)
 function sendProductToJson(_nombre, _producto, _precio, _id) {
     let json = { nombre: _nombre, producto: _producto, precio: _precio }
     let pruebaData = {
-        'nombre': 'Cachito',
-        'producto': 'Correa',
-        'precio': '100'
+        nombre: 'Cachito',
+        producto: 'Correa',
+        precio: '100'
     }
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(pruebaData)
     };
 
