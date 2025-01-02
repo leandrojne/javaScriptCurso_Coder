@@ -68,24 +68,31 @@ const OfertantesListado = function (nombreProducto, nombreOfertante, precio, id)
 
 function nuevaSubastaEnviarAlServer(e) {
     e.preventDefault();
+
     let json = {
         nombre: 'CACHITO',
         producto: 'CASA',
         precio: '1000'
     }
     let jsonData = JSON.stringify(json)
-    fetch(addSubasta, {
+
+    fetch('https://subasta.idiomavisual.com/api/add_subasta', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: jsonData
     })
-        .then(response => response.json())
-        .then(() => {
-            console.log('enviado!!!')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
         })
-        .catch(error => console.log(error))
+        .then(data => {
+            console.log('Enviado!!!', data);
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 
