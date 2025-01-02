@@ -29,8 +29,8 @@ const urlSubastador = 'https://subasta.idiomavisual.com/api/subastador';
 const addSubasta = 'https://subasta.idiomavisual.com/api/add_subasta';
 const urlOfertantes = 'https://subasta.idiomavisual.com/api/ofertantes';
 const addOfertante = 'https://subasta.idiomavisual.com/api/add_ofertante';
-const deleteOfertantes = 'https://subasta.idiomavisual.com/api/delete_ofertantes';
-const deleteSubasta = 'https://subasta.idiomavisual.com/api/delete_subasta';
+const deleteOfertantes = 'https://subasta.idiomavisual.com/api/delete_ofertantes/';
+const deleteSubasta = 'https://subasta.idiomavisual.com/api/delete_subasta/';
 
 const listadoDeProduct = []
 let listadoDeOfertantes = []
