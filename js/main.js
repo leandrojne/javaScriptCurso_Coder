@@ -28,6 +28,7 @@ const conainterFiltersBar = document.querySelector('.filters-btns')
 const urlSubastador = 'https://subasta.idiomavisual.com/api/subastador';
 const addSubasta = 'https://subasta.idiomavisual.com/api/add_subasta';
 const urlOfertantes = 'https://subasta.idiomavisual.com/api/ofertantes';
+const addOfertante = 'https://subasta.idiomavisual.com/api/add_ofertante';
 
 const listadoDeProduct = []
 let listadoDeOfertantes = []
@@ -177,24 +178,32 @@ function sendProductToJson(_nombre, _producto, _precio, _id) {
         .catch(error => console.error('Error:', error));
 }
 
+function sendOfertanteToJson(_nombre, _producto, _precio, _id) {
+    let json = { nombre: _nombre, producto: _producto, precio: _precio }
 
-function sendOfertanteToJson(nombre, producto, precio) {
-    let json = { nombre: nombre, producto: producto, precio: precio }
-    let jsonData = JSON.stringify(json)
-    fetch(addSubasta, {
+    const requestOptions = {
         method: 'POST',
         headers: {
+            'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
-        body: jsonData
-    })
-        .then(response => response.json())
+        body: JSON.stringify(json)
+    };
+
+    fetch(addSubasta, requestOptions)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
         .then((data) => {
-            ofertantes = new OfertantesListado(data.producto, data.nombre, data.precio, data.id)
+            ofertantes = new OfertantesListado(_producto, _nombre, _precio, _id)
             listadoDeOfertantes.push(ofertantes)
         })
         .catch(error => console.log(error))
 }
+
 function borrarTodaSubasta() {
     listadoDeProduct.forEach((item) => {
         let idItem = item.id
