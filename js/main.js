@@ -190,7 +190,7 @@ function sendOfertanteToJson(_nombre, _producto, _precio, _id) {
         body: JSON.stringify(json)
     };
 
-    fetch(addSubasta, requestOptions)
+    fetch(addOfertante, requestOptions)
         .then(res => {
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
