@@ -145,25 +145,30 @@ fetch(urlOfertantes)
             icon: "error"
         });
     })
+
 function sendProductToJson(nombre, producto, precio, id) {
-    let json = { "nombre": nombre, "producto": producto, "precio": precio, "id": id }
-    let jsonData = JSON.stringify(json)
-    fetch(urlSubastador, {
+    let json = { nombre: nombre, producto: producto, precio: precio }
+
+    const requestOptions = {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: jsonData
-    })
-        .then(response => response.json())
-        .then((data) => {
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(json)
+    };
+
+    fetch('urlSubastador', requestOptions)
+        .then(() => {
+            console.log('todo OK')
             let productoDeSubasta = new ProductoSubasta(data.producto, data.nombre, data.precio, data.id)
             listadoDeProduct.push(productoDeSubasta)
         })
-        .catch(error => console.log(error))
+        .catch((error) => {
+            console.log(error)
+        })
 }
+
+
 function sendOfertanteToJson(nombre, producto, precio) {
-    let json = { "nombre": nombre, "producto": producto, "precio": precio }
+    let json = { nombre: nombre, producto: producto, precio: precio }
     let jsonData = JSON.stringify(json)
     fetch(addSubasta, {
         method: 'POST',
