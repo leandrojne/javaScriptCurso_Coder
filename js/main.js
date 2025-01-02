@@ -66,7 +66,8 @@ const OfertantesListado = function (nombreProducto, nombreOfertante, precio, id)
 }
 
 
-function nuevaSubastaEnviarAlServer() {
+function nuevaSubastaEnviarAlServer(e) {
+    e.preventDefault();
     let json = {
         nombre: 'CACHITO',
         producto: 'CASA',
