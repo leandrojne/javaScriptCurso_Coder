@@ -82,7 +82,7 @@ function nuevaSubastaEnviarAlServer(e) {
         body: jsonData
     })
         .then(response => response.json())
-        .then((data) => {
+        .then(() => {
             console.log('enviado!!!')
         })
         .catch(error => console.log(error))
