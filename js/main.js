@@ -146,8 +146,8 @@ fetch(urlOfertantes)
         });
     })
 
-function sendProductToJson(nombre, producto, precio, id) {
-    let json = { nombre: nombre, producto: producto, precio: precio }
+function sendProductToJson(_nombre, _producto, _precio, _id) {
+    let json = { nombre: _nombre, producto: _producto, _precio: _precio }
 
     const requestOptions = {
         method: 'POST',
@@ -155,10 +155,12 @@ function sendProductToJson(nombre, producto, precio, id) {
         body: JSON.stringify(json)
     };
 
+    console.log(`Body del post: ${requestOptions.body}`)
+
     fetch(addSubasta, requestOptions)
         .then(() => {
             console.log('todo OK')
-            let productoDeSubasta = new ProductoSubasta(producto, nombre, precio, id)
+            let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
             listadoDeProduct.push(productoDeSubasta)
         })
         .catch((error) => {
