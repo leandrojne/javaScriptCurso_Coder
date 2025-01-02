@@ -147,7 +147,7 @@ fetch(urlOfertantes)
     })
 
 function sendProductToJson(_nombre, _producto, _precio, _id) {
-    let json = { nombre: _nombre, producto: _producto, _precio: _precio }
+    let json = { nombre: _nombre, producto: _producto, precio: _precio }
 
     const requestOptions = {
         method: 'POST',
@@ -161,6 +161,7 @@ function sendProductToJson(_nombre, _producto, _precio, _id) {
         .then(() => {
             console.log('todo OK')
             let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
+            console.log(`Product de Subasta: ${productoDeSubasta}`)
             listadoDeProduct.push(productoDeSubasta)
         })
         .catch((error) => {
