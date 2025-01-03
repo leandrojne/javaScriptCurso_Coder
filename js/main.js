@@ -71,7 +71,12 @@ const OfertantesListado = function (nombreProducto, nombreOfertante, precio, id)
 
 
 fetch(urlSubastador)
-    .then(response => response.json())
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
     .then((data) => {
         if (data.length < 1) {
             btnStartSubasta.style.display = 'inline-block'
@@ -115,7 +120,12 @@ fetch(urlSubastador)
 
 
 fetch(urlOfertantes)
-    .then(response => response.json())
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
     .then((data) => {
 
         if (data.length < 1) {
@@ -163,8 +173,6 @@ function sendProductToJson(_nombre, _producto, _precio, _id) {
         body: JSON.stringify(json)
     };
 
-    console.log(`Body del post: ${requestOptions.body}`)
-
     fetch(addSubasta, requestOptions)
         .then(res => {
             if (!res.ok) {
@@ -174,7 +182,6 @@ function sendProductToJson(_nombre, _producto, _precio, _id) {
         })
         .then(() => {
             let productoDeSubasta = new ProductoSubasta(_producto, _nombre, _precio, _id)
-            console.log(`Product de Subasta: ${productoDeSubasta}`)
             listadoDeProduct.push(productoDeSubasta)
         })
         .catch(error => console.error('Error:', error));
@@ -203,13 +210,10 @@ function sendOfertanteToJson(_nombre, _producto, _precio, _id) {
             ofertantes = new OfertantesListado(_producto, _nombre, _precio, _id)
             listadoDeOfertantes.push(ofertantes)
         })
-        .catch(error => console.log(error))
+        .catch(error => console.error('Error:', error))
 }
 
 function borrarTodaSubasta() {
-
-    console.log(`Se borra la subasta: ${listadoDeProduct}`)
-
     const requestOptions = {
         method: 'DELETE',
         headers: {
@@ -227,7 +231,7 @@ function borrarTodaSubasta() {
                 }
                 return res.json();
             })
-            .catch(error => console.log(error))
+            .catch(error => console.error('Error:', error))
     })
 
     listadoDeOfertantes.forEach((item) => {
@@ -240,7 +244,7 @@ function borrarTodaSubasta() {
                 }
                 return res.json();
             })
-            .catch(error => console.log(error))
+            .catch(error => console.error('Error:', error))
     })
     listadoDeProduct.splice(0)
     listadoDeOfertantes.splice(0)
