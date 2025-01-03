@@ -1,4 +1,3 @@
-
 let nombreSubastador = ''
 let productoSubasta = ''
 let precioProductoSubasta
